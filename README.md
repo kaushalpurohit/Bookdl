@@ -1,2 +1,2 @@
-# pdf-drive-api
-pdf-drive api using flask
+# pdf-drive
+Download books from pdf-drive
