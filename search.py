@@ -1,6 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 from book import books
+from selenium import webdriver
+import time
+
+options = webdriver.ChromeOptions()
+driver = webdriver.Chrome("/usr/lib/chromium/chromedriver", chrome_options=options)
 
 def search(book_name,book):
     url = "https://www.pdfdrive.com/search?q={}".format(book_name)
