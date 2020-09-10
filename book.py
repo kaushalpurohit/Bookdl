@@ -18,3 +18,6 @@ class books(dict):
             print("[{}].{}".format(index,self[index]['Title']))
             index += 1
         if(i < 3): print("[0].More")
+
+    def get_url(self,i):
+        return self[i]['Link']
