@@ -21,3 +21,6 @@ class books(dict):
 
     def get_url(self,i):
         return self[i]['Link']
+
+    def get_title(self,i):
+        return self[i]['Title']

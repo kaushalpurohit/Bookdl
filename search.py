@@ -3,6 +3,7 @@ import requests
 from book import books
 from selenium import webdriver
 import time
+import re
 
 
 def search(book_name,book):
@@ -18,7 +19,7 @@ def search(book_name,book):
         i += 1
     return book.get_results()
 
-def download(url):
+def download(title,url):
     url = ("https://www.pdfdrive.com"+url)
     source = requests.get(url)
     soup = BeautifulSoup(source.content,'html5lib')
@@ -27,6 +28,20 @@ def download(url):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     driver = webdriver.Chrome("/usr/lib/chromium/chromedriver", options=chrome_options)
+    driver.get("https://www.pdfdrive.com"+link)
+    html = driver.page_source
+    soup = BeautifulSoup(html,'html5lib')
+    button = soup.find('a',attrs = {'onclick':re.compile('AiD(.*)')})
+    try:
+        link = re.findall('http://(.*)',button['href'])
+        pdf = "http://"+link[0]
+    except:
+        pdf = "https://www.pdfdrive.com"+button['href']
+    try:
+        book = requests.get(pdf, allow_redirects=True)
+        open('/home/kaushalp/Books/{}.pdf'.format(title), 'wb').write(book.content)
+    except:
+        print("Link not found!")
     
 
 if __name__ == '__main__':
@@ -39,7 +54,8 @@ if __name__ == '__main__':
         response = input("Select:")
         if(response != '0'):
             url = obj.get_url(int(response))
-            download(url)
+            title = obj.get_title(int(response))
+            download(title,url)
             break
         else:
             i = i+1
