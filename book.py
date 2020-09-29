@@ -1,3 +1,5 @@
+from termcolor import colored
+
 class books(dict):
     def __init__(self):
         self.dict = dict()
@@ -15,14 +17,14 @@ class books(dict):
         size = len(self.dict)
         last = self.itr + 5
         i = self.itr
-        print("\n")
         while i < last:
             try:
-                print("[{}].{}".format(i,self.dict[i]['Title']))
+                title = self.dict[i]['Title']
+                print("{}.{}".format(colored(f"[{i}]",'magenta', attrs = ['bold']),colored(title,'yellow', attrs = ['bold'])))
             except:
                 break
             i += 1
-        if(i <= size): print("[0].More")
+        if(i <= size): print("{}.{}".format(colored("[0]", "magenta", attrs = ['bold']), colored("more","yellow", attrs = ['bold'])))
         self.itr = i
 
     def get_url(self,i):

@@ -5,6 +5,7 @@ from selenium import webdriver
 import time
 import re
 import sys
+from termcolor import cprint, colored
 
 
 def search(book_name,book):
@@ -49,9 +50,8 @@ def save(title, url):
         extension = '.' + extension[0].strip(' ')
     except:
         extension = ".pdf"
-    filename = f"/home/kaushal/Downloads/{title + extension}"
-    print(extension)
-    with open(filename, 'wb') as f:
+    path = "/home/kaushal/Downloads/"
+    with open(path + title + extension, 'wb') as f:
         try:
             response = requests.get(url, stream = True)
         except:
@@ -62,8 +62,8 @@ def save(title, url):
         if total is None:
             f.write(response.content)
         else:
-            print(url)
-            print(f"Downloading {title} of size {size}")
+            print(f"Downloading {colored(title, 'green', attrs = ['bold'])}")
+            print(f"saving the file to: {path}")
             downloaded = 0
             total = int(total)
             chunk = max(int(total / 1000), 1024 * 1024)
@@ -71,21 +71,19 @@ def save(title, url):
                 downloaded += len(data)
                 f.write(data)
                 done = int(50 * downloaded / total)
-                sys.stdout.write("\r[{}{}]".format('#' * done, '.' * (50 - done)))
+                sys.stdout.write(colored("\r|{}{}|".format('▇' * done, '░' * (50 - done)),"cyan") + f"{done * 2}%")
                 sys.stdout.flush()
     sys.stdout.write('\n')
-
-
-    
+    print("File saved.")
 
 if __name__ == '__main__':
     obj = books()
-    book_name = input("Enter book name")
+    book_name = input("Enter a book name:")
     result = search(book_name,obj)
     response = 0
     while(True):
         obj.show_results()
-        response = input("Select:")
+        response = input("Enter choice:")
         if(response != '0'):
             break
     url = obj.get_url(int(response))
