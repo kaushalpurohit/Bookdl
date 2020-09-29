@@ -11,6 +11,7 @@ class books(dict):
         return self
     
     def show_results(self,i):
+        print(len(self))
         indices = [0, 5, 10,15]
         index = indices[i-1] + 1
         print("\n")

@@ -44,7 +44,13 @@ def download(title,url):
     save(title, pdf)
 
 def save(title, url):
-    filename = f"/home/kaushal/Downloads/{title + '.pdf'}"
+    try:
+        extension = re.findall('.*ext=(.*)',url)
+        extension = '.' + extension[0].strip(' ')
+    except:
+        extension = ".pdf"
+    filename = f"/home/kaushal/Downloads/{title + extension}"
+    print(extension)
     with open(filename, 'wb') as f:
         try:
             response = requests.get(url, stream = True)
