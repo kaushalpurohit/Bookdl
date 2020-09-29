@@ -4,6 +4,7 @@ from book import books
 from selenium import webdriver
 import time
 import re
+import sys
 
 
 def search(book_name,book):
@@ -32,16 +33,43 @@ def download(title,url):
     html = driver.page_source
     soup = BeautifulSoup(html,'html5lib')
     button = soup.find('a',attrs = {'onclick':re.compile('AiD(.*)')})
+
     try:
-        link = re.findall('http://(.*)',button['href'])
-        pdf = "http://"+link[0]
+        link = re.findall('http(.*)',button['href'])
+        pdf = "http"+link[0]
     except:
         pdf = "https://www.pdfdrive.com"+button['href']
-    try:
-        book = requests.get(pdf, allow_redirects=True)
-        open('/home/kaushalp/Books/{}.pdf'.format(title), 'wb').write(book.content)
-    except:
-        print("Link not found!")
+        #book = requests.get(pdf, allow_redirects=True)
+        #open('/home/kaushalp/Books/{}.pdf'.format(title), 'wb').write(book.content)
+    save(title, pdf)
+
+def save(title, url):
+    filename = f"/home/kaushal/Downloads/{title + '.pdf'}"
+    with open(filename, 'wb') as f:
+        try:
+            response = requests.get(url, stream = True)
+        except:
+            print("file not found!")
+        total = response.headers.get('content-length')
+        size = int(total) / (1024 * 1024)
+        size = round(size, 2)
+        if total is None:
+            f.write(response.content)
+        else:
+            print(url)
+            print(f"Downloading {title} of size {size}")
+            downloaded = 0
+            total = int(total)
+            chunk = max(int(total / 1000), 1024 * 1024)
+            for data in response.iter_content(chunk_size = chunk):
+                downloaded += len(data)
+                f.write(data)
+                done = int(50 * downloaded / total)
+                sys.stdout.write("\r[{}{}]".format('#' * done, '.' * (50 - done)))
+                sys.stdout.flush()
+    sys.stdout.write('\n')
+
+
     
 
 if __name__ == '__main__':
