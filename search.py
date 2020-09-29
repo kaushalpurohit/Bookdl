@@ -82,14 +82,12 @@ if __name__ == '__main__':
     obj = books()
     book_name = input("Enter book name")
     result = search(book_name,obj)
-    i = 1
-    while(i < 4):
-        obj.show_results(i)
+    response = 0
+    while(True):
+        obj.show_results()
         response = input("Select:")
         if(response != '0'):
-            url = obj.get_url(int(response))
-            title = obj.get_title(int(response))
-            download(title,url)
             break
-        else:
-            i = i+1
+    url = obj.get_url(int(response))
+    title = obj.get_title(int(response))
+    download(title,url)
