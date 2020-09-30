@@ -4,15 +4,15 @@ class books(dict):
     def __init__(self):
         self.dict = dict()
         self.itr = 1
-    
+
     def add(self,index,title,link):
         self.dict[index] = {}
         self.dict[index]['Title'] = title
         self.dict[index]['Link'] = link
-    
+
     def get_results(self):
         return self.dict
-    
+
     def show_results(self):
         size = len(self.dict)
         last = self.itr + 5
