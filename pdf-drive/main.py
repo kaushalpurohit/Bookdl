@@ -1,10 +1,16 @@
+import argparse
+import sys
 from pdfdrive import search, download
 from books import books
 
-if __name__ == '__main__':
+parser = argparse.ArgumentParser(description = 'A Program to download books from pdf-drive.')
+
+parser.add_argument("Book_name", type = str, help = "Book name to search for")
+args = parser.parse_args()
+
+def main():
     obj = books()
-    book_name = input("Enter a book name:")
-    result = search(book_name,obj)
+    search(args.Book_name,obj)
     response = 0
     while(True):
         obj.show_results()
@@ -14,3 +20,10 @@ if __name__ == '__main__':
     url = obj.get_url(int(response))
     title = obj.get_title(int(response))
     download(title,url)
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nExiting...")
+        sys.exit()

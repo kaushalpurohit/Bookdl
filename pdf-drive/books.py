@@ -1,3 +1,5 @@
+''' Class to hold book data. '''
+
 from termcolor import colored
 
 class books(dict):
