@@ -11,10 +11,11 @@ class logger:
         else:
             path = os.path.join(path, directory)
         logging.basicConfig(filename = path, 
-                            format = "%(asctime)s - %(message)s",
-                            filemode = "a", level = logging.DEBUG)
-        logging.getLogger('requests').setLevel(logging.NOTSET)
-        logging.getLogger('urllib3.connectionpool').setLevel(logging.NOTSET)
+                            format = "[%(levelname)s] %(asctime)s %(message)s",
+                            filemode = "w", level = logging.DEBUG)
+        logging.getLogger('requests').setLevel(logging.WARNING)
+        logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
+        logging.getLogger('selenium').setLevel(logging.WARNING)
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.DEBUG)
     
@@ -23,7 +24,6 @@ class logger:
     
     def info(self, message):
         self.logger.info(message)
-        self.console_message(message)
     
     def warning(self, message):
         self.logger.warning(message)

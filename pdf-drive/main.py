@@ -17,6 +17,7 @@ def main():
     while(True):
         obj.show_results()
         response = input("Enter choice:")
+        logger.debug(response)
         if(response != '0'):
             break
     url = obj.get_url(int(response))

@@ -1,7 +1,11 @@
 import requests
 import re
 import sys
+import os
+from logger import logger
 from termcolor import colored
+
+logger = logger()
 
 def save(title, url):
     '''Function to save the file in downloads directory.'''
@@ -12,8 +16,10 @@ def save(title, url):
     except:
         extension = ".pdf"
 
-    path = "/home/kaushal/Downloads/"
-    with open(path + title + extension, 'wb') as f:
+    path = "/home/kaushal/Downloads/" + title + extension
+    check(path)
+
+    with open(path, 'wb') as f:
         try:
             response = requests.get(url, stream = True)
         except:
@@ -45,3 +51,9 @@ def progress_bar(title, total, path, response, f):
 
     sys.stdout.write('\n')
     print("File saved.")
+
+def check(path):
+    if os.path.exists(path):
+        logger.warning("File already exists! Do you want to overwrite it?(y/n)")
+        choice = input()
+        return True if choice == 'y' else False
