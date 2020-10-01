@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from books import books
 from save import save
 from termcolor import colored
+import sys
 import requests
 import re
 
@@ -26,7 +27,7 @@ def search(book_name,book):
 def download(title,url):
     '''Using selenium driver here to get the download link.'''
 
-    url = ("https://www.pdfdrive.com"+url)
+    url = "https://www.pdfdrive.com" + url
     source = requests.get(url)
     soup = BeautifulSoup(source.content,'html5lib')
     results = soup.find('a',attrs = {'id':'download-button-link'})
@@ -34,14 +35,19 @@ def download(title,url):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     driver = webdriver.Chrome("/usr/lib/chromium/chromedriver", options = chrome_options)
-    driver.get("https://www.pdfdrive.com"+link)
+    driver.get("https://www.pdfdrive.com" + link)
     html = driver.page_source
     soup = BeautifulSoup(html,'html5lib')
     button = soup.find('a',attrs = {'onclick':re.compile('AiD(.*)')})
-
-    try:
-        link = re.findall('http(.*)',button['href'])
-        pdf = "http"+link[0]
-    except:
-        pdf = "https://www.pdfdrive.com"+button['href']
-    save(title, pdf)
+    
+    if button is not None:
+        try:
+            link = re.findall('http(.*)',button['href'])
+            pdf = "http" + link[0]
+        except:
+            pdf = "https://www.pdfdrive.com" + button['href']
+        save(title, pdf)
+    else:
+        print("Book not found!")
+        print("Exiting...")
+        sys.exit()

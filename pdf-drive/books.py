@@ -2,12 +2,12 @@
 
 from termcolor import colored
 
-class books(dict):
+class books:
     def __init__(self):
         self.dict = dict()
         self.itr = 1
 
-    def add(self,index,title,link):
+    def add(self, index, title, link):
         self.dict[index] = {}
         self.dict[index]['Title'] = title
         self.dict[index]['Link'] = link

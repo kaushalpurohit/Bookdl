@@ -1,8 +1,10 @@
 import argparse
 import sys
+from logger import logger
 from pdfdrive import search, download
 from books import books
 
+logger = logger()
 parser = argparse.ArgumentParser(description = 'A Program to download books from pdf-drive.')
 
 parser.add_argument("Book_name", type = str, help = "Book name to search for")
@@ -25,5 +27,5 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print("\nExiting...")
+        logger.info("\nExiting...")
         sys.exit()
