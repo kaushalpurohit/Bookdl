@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+
 import argparse
 import sys
-from logger import logger
-from pdfdrive import search, download
-from books import books
+from Bookdl.books import books
+from Bookdl.logger import logger 
+from Bookdl.pdfdrive import search, download
 
 logger = logger()
 parser = argparse.ArgumentParser(description = 'A Program to download books from pdf-drive.')
@@ -28,5 +30,5 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        logger.info("\nExiting...")
+        logger.warning("\nExiting...")
         sys.exit()

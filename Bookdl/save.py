@@ -2,10 +2,10 @@ import requests
 import re
 import sys
 import os
-from logger import logger
+from . import logger
 from termcolor import colored
 
-logger = logger()
+logger = logger.logger()
 
 def save(title, url):
     '''Function to save the file in downloads directory.'''
@@ -16,28 +16,33 @@ def save(title, url):
     except:
         extension = ".pdf"
 
-    path = "/home/kaushal/Downloads/" + title + extension
-    check(path)
+    home = os.path.expanduser("~")
+    logger.debug(home)
+    path = os.path.join(home, "Downloads/") + title + extension
 
-    with open(path, 'wb') as f:
-        try:
-            response = requests.get(url, stream = True)
-        except:
-            print("file not found!")
+    if check(path):
+        with open(path, 'wb') as f:
+            try:
+                response = requests.get(url, stream = True)
+            except:
+                print("file not found!")
+                sys.exit()
 
-        total = response.headers.get('content-length')
-        size = int(total) / (1024 * 1024)
-        size = round(size, 2)
-        if total is None:
-            f.write(response.content)
-        else:
-            progress_bar(title, total, path, response, f)
+            total = response.headers.get('content-length')
+            size = int(total) / (1024 * 1024)
+            size = round(size, 2)
+            if total is None:
+                f.write(response.content)
+            else:
+                progress_bar(title, total, path, response, f)
+    else:
+        logger.info("No changes were made.")
 
 def progress_bar(title, total, path, response, f):
     '''Function to display the progress of download'''
 
     print(f"Downloading {colored(title, 'green', attrs = ['bold'])}")
-    print(f"saving the file to: {path}")
+    logger.info(f"saving the file to: {path}")
 
     downloaded = 0
     total = int(total)
@@ -50,7 +55,7 @@ def progress_bar(title, total, path, response, f):
         sys.stdout.flush()
 
     sys.stdout.write('\n')
-    print("File saved.")
+    logger.info("File saved.")
 
 def check(path):
     if os.path.exists(path):

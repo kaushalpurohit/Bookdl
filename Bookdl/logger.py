@@ -3,13 +3,13 @@ import os
 
 class logger:
     def __init__(self):
-        path = "/home/kaushal/.cache/pdfdrive/"
-        directory = "pdfdrive.log"
+        path = os.path.expanduser("~") + '/.cache/Bookdl'
+        file = "bookdl.log"
         if not os.path.exists(path):
-            path = os.path.join(path, directory)
             os.makedirs(path)
+            path = os.path.join(path, file)
         else:
-            path = os.path.join(path, directory)
+            path = os.path.join(path, file)
         logging.basicConfig(filename = path, 
                             format = "[%(levelname)s] %(asctime)s %(message)s",
                             filemode = "w", level = logging.DEBUG)
@@ -24,6 +24,7 @@ class logger:
     
     def info(self, message):
         self.logger.info(message)
+        print(message)
     
     def warning(self, message):
         self.logger.warning(message)

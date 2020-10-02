@@ -2,8 +2,7 @@
 
 from selenium import webdriver
 from bs4 import BeautifulSoup
-from books import books
-from save import save
+from . import books, save
 from termcolor import colored
 import sys
 import requests
@@ -46,7 +45,7 @@ def download(title,url):
             pdf = "http" + link[0]
         except:
             pdf = "https://www.pdfdrive.com" + button['href']
-        save(title, pdf)
+        save.save(title, pdf)
     else:
         print("Book not found!")
         print("Exiting...")
