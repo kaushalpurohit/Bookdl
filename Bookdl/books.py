@@ -1,8 +1,13 @@
 ''' Class to hold book data. '''
 
 from termcolor import colored
+from . import logger
+
+logger = logger.logger()
+
 
 class books:
+
     def __init__(self):
         self.dict = dict()
         self.itr = 1
@@ -22,15 +27,21 @@ class books:
         while i < last:
             try:
                 title = self.dict[i]['Title']
-                print("{}.{}".format(colored(f"[{i}]",'magenta', attrs = ['bold']),colored(title,'yellow', attrs = ['bold'])))
-            except:
+                text = colored(title, 'yellow', attrs=['bold'])
+                index = colored(f"[{i}]", "magenta", attrs=['bold'])
+                print("{}.{}".format(index, text))
+            except Exception as e:
+                logger.debug(e)
                 break
             i += 1
-        if(i <= size): print("{}.{}".format(colored("[0]", "magenta", attrs = ['bold']), colored("more","yellow", attrs = ['bold'])))
+        if(i <= size):
+            text = colored("more", "yellow", attrs=['bold'])
+            index = colored("[0]", "magenta", attrs=['bold'])
+            print("{}.{}".format(index, text))
         self.itr = i
 
-    def get_url(self,i):
+    def get_url(self, i):
         return self.dict[i]['Link']
 
-    def get_title(self,i):
+    def get_title(self, i):
         return self.dict[i]['Title']

@@ -3,18 +3,20 @@
 import argparse
 import sys
 from Bookdl.books import books
-from Bookdl.logger import logger 
+from Bookdl.logger import logger
 from Bookdl.pdfdrive import search, download
 
 logger = logger()
-parser = argparse.ArgumentParser(description = 'A Program to download books from pdf-drive.')
+description = "A Program to download books from pdf-drive."
+parser = argparse.ArgumentParser(description=description)
 
-parser.add_argument("Book_name", type = str, help = "Book name to search for")
+parser.add_argument("Book_name", type=str, help="Book name to search for")
 args = parser.parse_args()
+
 
 def main():
     obj = books()
-    search(args.Book_name,obj)
+    search(args. Book_name, obj)
     response = 0
     while(True):
         obj.show_results()
@@ -24,7 +26,8 @@ def main():
             break
     url = obj.get_url(int(response))
     title = obj.get_title(int(response))
-    download(title,url)
+    download(title, url)
+
 
 if __name__ == '__main__':
     try:
