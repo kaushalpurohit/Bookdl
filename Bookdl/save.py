@@ -4,6 +4,7 @@ import sys
 import os
 from . import logger
 from termcolor import colored
+import time
 
 logger = logger.logger()
 
@@ -51,13 +52,28 @@ def progress_bar(title, total, path, response, f):
     downloaded = 0
     total = int(total)
     chunk = max(int(total / 1000), 1024 * 1024)
+    start = time.time()
     for data in response.iter_content(chunk_size=chunk):
         downloaded += len(data)
-        f.write(data)
+        downloaded_size = downloaded / (1024 * 1024)
+        downloaded_size = round(downloaded_size, 2)
+        speed = downloaded_size / (time.time() - start)
+        eta = int((total - downloaded) / (speed * 1024 * 1024))
+        if(speed > 1):
+            speed = int(speed)
+            speed = str(speed) + ' m'
+        else:
+            speed = int(speed * 1024)
+            speed = str(speed) + ' k'
         done = int(50 * downloaded / total)
-        bar = "\r|{}{}|".format('▇' * done, '░' * (50 - done))
-        progress = colored(bar, "cyan")
-        progress += f"{done * 2}%"
+        details = "{} mb | {}bps |".format(int(downloaded_size), speed)
+        completed = '▇' * done
+        remaining = '░' * (50 - done)
+        bar = " |{}{}|".format(completed, remaining)
+        bar = colored(bar, "cyan")
+        percent = done * 2
+        f.write(data)
+        progress = "\r {} {}s {}{}%".format(details, eta, bar, percent)
         sys.stdout.write(progress)
         sys.stdout.flush()
 
@@ -72,3 +88,5 @@ def check(path):
         choice = input()
         logger.debug(choice)
         return True if choice == 'y' else False
+    else:
+        return True

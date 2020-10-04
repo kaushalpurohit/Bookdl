@@ -1,3 +1,6 @@
-**/__pycache__
-**/env
-**/.vscode
+Bookdl/__pycache__/
+env/
+.vscode/
+dist/
+*.egg-info/
+build/
