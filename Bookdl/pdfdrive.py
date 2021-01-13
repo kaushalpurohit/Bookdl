@@ -44,6 +44,8 @@ def download(title, url):
     driver_path = "/usr/lib/chromium/chromedriver"
     driver = webdriver.Chrome(driver_path, options=chrome_options)
     driver.get("https://www.pdfdrive.com" + link)
+    driver.set_page_load_timeout(10)
+    driver.set_script_timeout(10)
     html = driver.page_source
     soup = BeautifulSoup(html, 'html5lib')
     button = soup.find('a', attrs={'onclick': re.compile('AiD(.*)')})

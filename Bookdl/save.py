@@ -21,8 +21,10 @@ def save(title, url):
 
     home = os.path.expanduser("~")
     logger.debug(home)
-    path = os.path.join(home, "Downloads/") + title + extension
-
+    Books = os.path.join(home, "Books/")
+    if not os.path.exists(Books):
+        os.makedirs(Books)
+    path = Books + title + extension
     if check(path):
         with open(path, 'wb') as f:
             try:
