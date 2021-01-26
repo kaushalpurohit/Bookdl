@@ -31,7 +31,7 @@ def main():
 
     url = obj.get_url(int(response))
     title = obj.get_title(int(response))
-    download(title, url, args.extension)
+    download(title, url, args.extension[0])
 
 
 if __name__ == '__main__':
