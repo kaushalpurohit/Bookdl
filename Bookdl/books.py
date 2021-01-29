@@ -37,7 +37,7 @@ class books:
         if(i <= size):
             text = colored("more", "yellow", attrs=['bold'])
             index = colored("[0]", "magenta", attrs=['bold'])
-            print("{}.{}".format(index, text))
+            print("{} {}".format(index, text))
         self.itr = i
 
     def get_url(self, i):
