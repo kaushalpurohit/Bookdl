@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(description=description)
 
 parser.add_argument("book_name", type=str,
                     help="Book name to search for")
-parser.add_argument("-e", "--extension", type=str, default='pdf', dest="extension",
+parser.add_argument("-e", "--extension", type=str, default=['pdf'], dest="extension",
                     nargs='*', choices=['epub', 'pdf', 'mobi'], help="File type")
 args = parser.parse_args()
 
@@ -24,7 +24,7 @@ def main():
 
     while(True):
         obj.show_results()
-        response = input("Enter choice:")
+        response = input("Enter choice: ")
         logger.debug(response)
         if(response != '0'):
             break

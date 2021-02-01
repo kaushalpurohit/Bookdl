@@ -29,7 +29,7 @@ class books:
                 title = self.dict[i]['Title']
                 text = colored(title, 'yellow', attrs=['bold'])
                 index = colored(f"[{i}]", "magenta", attrs=['bold'])
-                print("{}.{}".format(index, text))
+                print("{} {}".format(index, text))
             except Exception as e:
                 logger.debug(e)
                 break
