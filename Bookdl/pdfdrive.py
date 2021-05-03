@@ -2,6 +2,7 @@
 
 import re
 from urllib.request import Request, urlopen
+from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
 from termcolor import colored
 from . import save
@@ -17,12 +18,14 @@ def search(book_name, book):
     '''
 
     print("searching for " + colored(book_name, "green", attrs=['bold']))
+    book_name = quote_plus(book_name)
     url = "https://www.pdfdrive.com/search?q={}".format(book_name)
+    print(url)
 
     # https://stackoverflow.com/questions/16627227/http-error-403-in-python-3-web-scraping
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    web_byte = urlopen(req).read()
-    source = web_byte.decode('utf-8')
+    source = urlopen(req).read()
+    # source = source.decode('utf-8')
 
     soup = BeautifulSoup(source, 'html5lib')
     results = soup.findAll('a', attrs={'class': 'ai-search'})
@@ -38,8 +41,7 @@ def download(title, url, ext):
 
     url = "https://www.pdfdrive.com" + url
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    web_byte = urlopen(req).read()
-    resp = web_byte.decode('utf-8')
+    resp = urlopen(req).read()
     soup = BeautifulSoup(resp, 'html5lib')
 
     bookId = soup.find('button', attrs={'id': 'previewButtonMain'})['data-id']
