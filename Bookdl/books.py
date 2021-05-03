@@ -6,7 +6,7 @@ from . import logger
 logger = logger.logger()
 
 
-class books:
+class Books:
 
     def __init__(self):
         self.dict = dict()

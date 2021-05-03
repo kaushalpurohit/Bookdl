@@ -1,5 +1,4 @@
 import requests
-import re
 import sys
 import os
 import time

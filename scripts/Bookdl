@@ -2,7 +2,7 @@
 
 import argparse
 import sys
-from Bookdl.books import books
+from Bookdl.books import Books
 from Bookdl.logger import logger
 from Bookdl.pdfdrive import search, download
 
@@ -18,7 +18,7 @@ args = parser.parse_args()
 
 
 def main():
-    obj = books()
+    obj = Books()
     search(args.book_name, obj)
     response = 0
 
