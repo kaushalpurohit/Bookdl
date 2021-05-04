@@ -11,5 +11,5 @@ setup(
     scripts=['scripts/Bookdl'],
     version='0.1.3',
     license='MIT',
-    install_requires=['requests', 'bs4', 'html5lib', 'selenium', 'termcolor'],
+    install_requires=['requests', 'bs4', 'html5lib', 'termcolor'],
 )

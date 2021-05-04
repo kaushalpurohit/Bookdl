@@ -14,27 +14,34 @@
 </div>
 
 ## Requirements
-* Python 3.6+
+
+- Python 3.6+
 
 ## Installation
+
 #### Pypi
+
 ```
 pip install Bookdl
 ```
+
 #### Manual
+
 ```
 git clone https://github.com/kaushalpurohit/Bookdl.git && cd Bookdl && sudo python setup.py install
 ```
 
 ## Usage
+
 ```
-usage: Bookdl [-h] Book_name
+usage: Bookdl [-h] [-e [{epub,pdf,mobi}]] book_name
 
 A Program to download books from pdf-drive.
 
 positional arguments:
-  Book_name   Book name to search for
+  book_name   Book name to search for
 
 optional arguments:
-  -h, --help  show this help message and exit
+    -h, --help  show this help message and exit
+    -e [{epub,pdf,mobi}], --extension [{epub,pdf,mobi}]  File type
 ```

@@ -1,11 +1,11 @@
 ''' Contains functions to search and download the book '''
 
-import sys
 import re
-import requests
+from urllib.request import Request, urlopen
+from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
 from termcolor import colored
-from . import books, save
+from . import save
 from . import logger
 
 logger = logger.logger()
@@ -18,10 +18,16 @@ def search(book_name, book):
     '''
 
     print("searching for " + colored(book_name, "green", attrs=['bold']))
+    book_name = quote_plus(book_name)
     url = "https://www.pdfdrive.com/search?q={}".format(book_name)
+    print(url)
 
-    source = requests.get(url)
-    soup = BeautifulSoup(source.content, 'html5lib')
+    # https://stackoverflow.com/questions/16627227/http-error-403-in-python-3-web-scraping
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    source = urlopen(req).read()
+    # source = source.decode('utf-8')
+
+    soup = BeautifulSoup(source, 'html5lib')
     results = soup.findAll('a', attrs={'class': 'ai-search'})
 
     for i, result in enumerate(results):
@@ -34,8 +40,9 @@ def download(title, url, ext):
     '''Using selenium driver here to get the download link.'''
 
     url = "https://www.pdfdrive.com" + url
-    resp = requests.get(url)
-    soup = BeautifulSoup(resp.content, 'html5lib')
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    resp = urlopen(req).read()
+    soup = BeautifulSoup(resp, 'html5lib')
 
     bookId = soup.find('button', attrs={'id': 'previewButtonMain'})['data-id']
     session = re.findall(r'session=(.+?)"', str(soup))[0]

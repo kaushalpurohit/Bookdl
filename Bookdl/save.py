@@ -1,5 +1,4 @@
 import requests
-import re
 import sys
 import os
 import time
@@ -27,6 +26,7 @@ def save(title, url, parameters):
     path = bookPath + title + extension
     if not check(path):
         print("No changes were made.")
+        sys.exit(0)
 
     with open(path, 'wb') as f:
         try:

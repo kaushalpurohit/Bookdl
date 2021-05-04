@@ -6,7 +6,7 @@ from . import logger
 logger = logger.logger()
 
 
-class books:
+class Books:
 
     def __init__(self):
         self.dict = dict()
@@ -29,7 +29,7 @@ class books:
                 title = self.dict[i]['Title']
                 text = colored(title, 'yellow', attrs=['bold'])
                 index = colored(f"[{i}]", "magenta", attrs=['bold'])
-                print("{}.{}".format(index, text))
+                print("{} {}".format(index, text))
             except Exception as e:
                 logger.debug(e)
                 break
