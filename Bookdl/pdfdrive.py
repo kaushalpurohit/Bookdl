@@ -2,14 +2,14 @@
 
 import sys
 import re
-import requests
+import cloudscraper
 from bs4 import BeautifulSoup
 from termcolor import colored
 from . import books, save
 from . import logger
 
 logger = logger.logger()
-
+scraper = cloudscraper.create_scraper()
 
 def search(book_name, book):
     '''
@@ -19,8 +19,7 @@ def search(book_name, book):
 
     print("searching for " + colored(book_name, "green", attrs=['bold']))
     url = "https://www.pdfdrive.com/search?q={}".format(book_name)
-
-    source = requests.get(url)
+    source = scraper.get(url)
     soup = BeautifulSoup(source.content, 'html5lib')
     results = soup.findAll('a', attrs={'class': 'ai-search'})
 
@@ -34,7 +33,7 @@ def download(title, url, ext):
     '''Using selenium driver here to get the download link.'''
 
     url = "https://www.pdfdrive.com" + url
-    resp = requests.get(url)
+    resp = scraper.get(url)
     soup = BeautifulSoup(resp.content, 'html5lib')
 
     bookId = soup.find('button', attrs={'id': 'previewButtonMain'})['data-id']
